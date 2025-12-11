@@ -1,15 +1,8 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardTitle } from "@/components/ui/card";
+import RepoSearchCard from "@/components/RepoSearchCard";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -39,60 +32,23 @@ export default async function DashboardPage() {
         <div className="w-full max-w-3xl space-y-6">
           <section>
             <Card className="flex flex-row items-center justify-center gap-3">
-                <UserButton
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: "h-12 w-12",
-                    },
-                  }}
-                />
-                {displayName && (
-                  <CardTitle className="text-xl font-semibold">
-                    {displayName}
-                  </CardTitle>
-                )}
+              <UserButton
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox: "h-12 w-12",
+                  },
+                }}
+              />
+              {displayName && (
+                <CardTitle className="text-xl font-semibold">
+                  {displayName}
+                </CardTitle>
+              )}
             </Card>
           </section>
 
           <section>
-            <Card>
-              <CardHeader>
-                <CardTitle>GitHub PR search setup</CardTitle>
-                <CardDescription>
-                  Describe yourself and the repository you want to explore.
-                  This is just UI — no API calls yet.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form className="space-y-5">
-                  <div className="grid gap-5 md:grid-cols-2">
-                    <div className="space-y-2 text-left">
-                      <Label htmlFor="name">Your name</Label>
-                      <Input
-                        id="name"
-                        placeholder="How should we call you in summaries?"
-                      />
-                    </div>
-
-                    <div className="space-y-2 text-left">
-                      <Label htmlFor="repo">GitHub repository</Label>
-                      <Input
-                        id="repo"
-                        placeholder="e.g. vercel/next.js"
-                      />
-                    </div>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled
-                  >
-                    PR search coming soon
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+            <RepoSearchCard />
           </section>
         </div>
       </SignedIn>
