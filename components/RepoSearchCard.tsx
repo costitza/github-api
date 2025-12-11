@@ -22,6 +22,7 @@ type DisplayRepo = {
   openIssues: number;
   language: string | null;
   htmlUrl: string;
+  createdAt: string;
   updatedAt: string;
   openPullRequests: number;
 };
@@ -50,6 +51,7 @@ type GithubRepo = {
   open_issues_count: number;
   language: string | null;
   html_url: string;
+  created_at: string;
   updated_at: string;
   name: string;
   owner: {
@@ -116,6 +118,7 @@ export default function RepoSearchCard() {
         openIssues: repoData.open_issues_count,
         language: repoData.language,
         htmlUrl: repoData.html_url,
+        createdAt: repoData.created_at,
         updatedAt: repoData.updated_at,
         openPullRequests: Array.isArray(pulls) ? pulls.length : 0,
       });
@@ -221,7 +224,15 @@ export default function RepoSearchCard() {
                   <div className="text-xs text-neutral-500 dark:text-neutral-400 sm:text-right">
                     {data.language && <div>{data.language}</div>}
                     <div>
-                      Updated:{" "}
+                      Created:{" "}
+                      {new Date(data.createdAt).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </div>
+                    <div>
+                      Last updated:{" "}
                       {new Date(data.updatedAt).toLocaleDateString(undefined, {
                         year: "numeric",
                         month: "short",
