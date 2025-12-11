@@ -1,4 +1,5 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,9 +11,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const user = await currentUser();
+  const displayName =
+    user?.fullName || user?.username || user?.primaryEmailAddress?.emailAddress;
+
   return (
-    <main className="min-h-screen px-4 py-10 flex items-start justify-center">
+    <main className="min-h-screen px-4 py-10 flex items-center justify-center">
       <SignedOut>
         <div className="w-full max-w-md text-center space-y-4 mt-24">
           <h1 className="text-2xl font-semibold tracking-tight">
@@ -31,16 +36,23 @@ export default function DashboardPage() {
       </SignedOut>
 
       <SignedIn>
-        <div className="w-full max-w-5xl space-y-8">
-          <header className="flex justify-end">
-            <UserButton
-              appearance={{
-                elements: {
-                  userButtonAvatarBox: "h-9 w-9",
-                },
-              }}
-            />
-          </header>
+        <div className="w-full max-w-3xl space-y-6">
+          <section>
+            <Card className="flex flex-row items-center justify-center gap-3">
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: "h-12 w-12",
+                    },
+                  }}
+                />
+                {displayName && (
+                  <CardTitle className="text-xl font-semibold">
+                    {displayName}
+                  </CardTitle>
+                )}
+            </Card>
+          </section>
 
           <section>
             <Card>
@@ -53,20 +65,22 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <form className="space-y-5">
-                  <div className="space-y-2 text-left">
-                    <Label htmlFor="name">Your name</Label>
-                    <Input
-                      id="name"
-                      placeholder="How should we call you in summaries?"
-                    />
-                  </div>
+                  <div className="grid gap-5 md:grid-cols-2">
+                    <div className="space-y-2 text-left">
+                      <Label htmlFor="name">Your name</Label>
+                      <Input
+                        id="name"
+                        placeholder="How should we call you in summaries?"
+                      />
+                    </div>
 
-                  <div className="space-y-2 text-left">
-                    <Label htmlFor="repo">GitHub repository</Label>
-                    <Input
-                      id="repo"
-                      placeholder="e.g. vercel/next.js"
-                    />
+                    <div className="space-y-2 text-left">
+                      <Label htmlFor="repo">GitHub repository</Label>
+                      <Input
+                        id="repo"
+                        placeholder="e.g. vercel/next.js"
+                      />
+                    </div>
                   </div>
 
                   <Button
