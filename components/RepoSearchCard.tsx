@@ -90,7 +90,7 @@ export default function RepoSearchCard() {
 
     setLoading(true);
     try {
-      const { Octokit } = await import("octokit-next");
+      const { Octokit } = await import("@octokit/core");
       const octokit = new Octokit();
 
       const [{ data: repoRaw }, { data: pulls }] = await Promise.all([
