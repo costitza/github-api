@@ -8,12 +8,7 @@ export default defineSchema({
     repoOwner: v.string(),
     repoUrl: v.string(),
     repoDescription: v.string(),
-    repoPullRequests: v.array(v.object({
-      pullRequestId: v.string(),
-      pullRequestTitle: v.string(),
-      pullRequestDescription: v.string(),
-      pullRequestCreatedAt: v.string(),
-    })),
+    repoPullRequests: v.string(),
     createdAt: v.number(),
     lastUpdatedAt: v.number(),
   }).index("by_clerkId", ["clerkId"]),
