@@ -10,6 +10,7 @@
 
 import type * as github_index from "../github/index.js";
 import type * as github_mutation from "../github/mutation.js";
+import type * as github_query from "../github/query.js";
 
 import type {
   ApiFromModules,
@@ -20,6 +21,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   "github/index": typeof github_index;
   "github/mutation": typeof github_mutation;
+  "github/query": typeof github_query;
 }>;
 
 /**

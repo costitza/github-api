@@ -12,4 +12,17 @@ export default defineSchema({
     createdAt: v.number(),
     lastUpdatedAt: v.number(),
   }).index("by_clerkId", ["clerkId"]),
+
+  githubPullRequests: defineTable({
+    repoId: v.id("githubRepos"),
+    pullRequestNumber: v.number(),
+    pullRequestTitle: v.string(),
+    pullRequestUrl: v.string(),
+    pullRequestState: v.string(),
+    pullRequestCreatedAt: v.number(),
+    pullRequestUpdatedAt: v.number(),
+    pullRequestTotalAdditions: v.number(),
+    pullRequestTotalDeletions: v.number(),
+    pullRequestTotalChanges: v.number(),
+  }).index("by_repoId", ["repoId"]),
 });
