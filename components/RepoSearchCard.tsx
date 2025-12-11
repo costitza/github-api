@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 import {
   Card,
@@ -61,6 +63,7 @@ type GithubRepo = {
 
 export default function RepoSearchCard() {
   const { user } = useUser();
+  const addGithubRepo = useMutation(api.github.index.addGithubRepo);
 
   const [name, setName] = useState("");
   const [repo, setRepo] = useState("");
@@ -135,14 +138,18 @@ export default function RepoSearchCard() {
           })),
         };
 
-        setPreparedForDb({
+        const payload: PreparedForDb = {
           clerkId: user.id,
           repoName: repoData.name,
           repoOwner: repoData.owner.login,
           repoUrl: repoData.html_url,
           repoDescription: repoData.description ?? "",
           repoPullRequests: JSON.stringify(prSummary),
-        });
+        };
+
+        setPreparedForDb(payload);
+
+        await addGithubRepo(payload);
       }
     } catch (err: unknown) {
       if (typeof err === "object" && err && "status" in err) {

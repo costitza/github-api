@@ -8,13 +8,19 @@
  * @module
  */
 
+import type * as github_index from "../github/index.js";
+import type * as github_mutation from "../github/mutation.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
-declare const fullApi: ApiFromModules<{}>;
+declare const fullApi: ApiFromModules<{
+  "github/index": typeof github_index;
+  "github/mutation": typeof github_mutation;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.

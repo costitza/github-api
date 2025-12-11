@@ -8,9 +8,17 @@ export const addGithubRepo = mutation({
         repoOwner: v.string(),
         repoUrl: v.string(),
         repoDescription: v.string(),
+    repoPullRequests: v.string(),
     },
     handler: async (ctx, args) => {
-        const { clerkId, repoName, repoOwner, repoUrl, repoDescription } = args;
+    const {
+      clerkId,
+      repoName,
+      repoOwner,
+      repoUrl,
+      repoDescription,
+      repoPullRequests,
+    } = args;
         const existingRepo = await ctx.db.query("githubRepos").filter(q => q.eq(q.field("clerkId"), clerkId)).first();
         if (existingRepo) {
             await ctx.db.patch(existingRepo._id, {
@@ -18,6 +26,7 @@ export const addGithubRepo = mutation({
                 repoOwner,
                 repoUrl,
                 repoDescription,
+        repoPullRequests,
                 lastUpdatedAt: Date.now(),
             });
         } else {
@@ -27,6 +36,7 @@ export const addGithubRepo = mutation({
                 repoOwner,
                 repoUrl,
                 repoDescription,
+        repoPullRequests,
                 createdAt: Date.now(),
                 lastUpdatedAt: Date.now(),
             });
