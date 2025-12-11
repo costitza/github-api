@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import RepoSearchCard from "@/components/RepoSearchCard";
+import { RepoGrid } from "@/components/github/RepoGrid";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -49,6 +50,13 @@ export default async function DashboardPage() {
 
           <section>
             <RepoSearchCard />
+          </section>
+
+          <section>
+            <h2 className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              Your linked repositories & pull requests
+            </h2>
+            <RepoGrid />
           </section>
         </div>
       </SignedIn>
